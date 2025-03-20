@@ -93,20 +93,39 @@ updateDetails = async (req, res)=>{
     try {
         const userId = req.user
         const {firstName, lastName, role} = req.body
-        const userExist = await User.findOne({
-            where: {userId}
-        })
-        if (!userExist){
-            return res.status(200).json({msg: "User not found"})
+        const userExist = await User.findOne({where: userId})
+        if (!userExist) {
+            return res.status(404).json({msg: "User not found"})
         }
-        return res.status(200).json({msg: "User found"})
 
-
-        
+        const updateInfo = await User.update(
+            {
+                firstName: firstName,
+                lastName: lastName,
+                role: role        
+            },
+            {
+                where: {userId}
+            }
+    )
+        if (updateInfo){
+            return res.status(201).json({msg: "User details updated successfully "})
+        }
+                
     } catch (error) {
         throw error
     }
 }
+
+
+// await User.update(
+//     { lastName: 'Doe' },
+//     {
+//       where: {
+//         lastName: null,
+//       },
+//     },
+//   );
 
 
 module.exports ={

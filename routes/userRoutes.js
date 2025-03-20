@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.get('/', welcome)
 router.post('/register', register)
-router.post('/login', /*authenticateToken*/ login)
+router.post('/login', login)
 router.put('/update', authenticateToken, updateDetails)
 
 

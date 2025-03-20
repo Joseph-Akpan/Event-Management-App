@@ -11,8 +11,10 @@ authenticateToken = async (req, res, next) => {
   }
 
   const verify = jwt.verify(token, process.env.privateKey )
-  const {userId, username, email, role} = verify
-  console.log(verify, userId, email, username, role)
+  const {id, username, email, role} = verify
+  console.log(verify, id, email, username, role)
+
+  next()
 
 }
 
