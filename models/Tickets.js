@@ -1,5 +1,6 @@
 const {Sequelize, DataTypes, ENUM} = require('sequelize')
 const db = require('../config/db_config')
+const Payment = require('./Payment')
 
 const Ticket = db.define(
     'Ticket', {
@@ -35,6 +36,10 @@ const Ticket = db.define(
         },
     }
 )
+
+Ticket.hasOne(Payment, {foreignKeys: 'paymentId'})
+Payment.belongsTo(Ticket) 
+
 
 module.exports = Ticket
 return Ticket

@@ -1,6 +1,7 @@
 const {Sequelize, DataTypes, ENUM} = require('sequelize')
 const db = require('../config/db_config')
 const Registration = require('./Registration')
+const Ticket = require('./Tickets')
 
 const Event = db.define(
     'Event', {
@@ -42,8 +43,8 @@ const Event = db.define(
 Event.hasMany(Registration, {foreignKey:'regId'})
 Registration.belongsTo(Event)
 
-// Event.hasMany(Tickets, {foreignKey:'ticketId'})
-// Tickets.belongsTo(Event)
+Event.hasMany(Ticket, {foreignKey:'ticketId'})
+Ticket.belongsTo(Event)
 
 module.exports = Event
 return Event

@@ -12,9 +12,13 @@ const User = db.define(
         },
         firstName: {
             type: DataTypes.STRING, 
-            allowNull: false,
+            allowNull: true,
         },
         lastName: {
+            type: DataTypes.STRING, 
+            allowNull: true,
+        }, 
+        username: {
             type: DataTypes.STRING, 
             allowNull: false,
         }, 
@@ -37,6 +41,7 @@ const User = db.define(
 // database associations
 User.hasMany(Registration, {foreignKeys: 'regId'})
 Registration.belongsTo(User) 
+
 
 module.exports = User
 return User

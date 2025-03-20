@@ -1,5 +1,6 @@
 const {Sequelize, DataTypes, ENUM} = require('sequelize')
 const db = require('../config/db_config')
+const Payment = require('./Payment')
 
 const Registration = db.define(
     'Registration', {
@@ -28,6 +29,10 @@ const Registration = db.define(
         
     }
 )
+
+Registration.hasMany(Payment, {foreignKeys: 'paymentId'})
+Payment.belongsTo(Registration) 
+
 
 module.exports = Registration
 return Registration
