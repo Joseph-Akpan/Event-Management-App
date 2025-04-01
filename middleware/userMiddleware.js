@@ -3,23 +3,27 @@ require('dotenv').config()
 const User = require('../models/User')
 
 authenticateToken = async (req, res, next) => {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
+  const token = req.headers['authorization']?.split(' ')[1]; // Assuming Bearer token
 
   if (!token) {
-    return res.status(401).json({msg: "Not authnorized"})
+    return res.status(401).json({ message: 'Access token required' });
   }
 
-  const verify = jwt.verify(token, process.env.privateKey )
-  const {id, username, email, role} = verify
-  console.log(verify, id, email, username, role)
+  jwt.verify(token, process.env.privateKey, (err, verify) => {
+    if (err || !verify) {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
 
-  next()
-
-}
+    // Safely destructure properties only if verify is valid
+    const { userId, username, email, role } = verify;
+    req.user = { userId, username, email, role }; // Attach user info to request
+    next();
+  });
+};
 
 module.exports ={
   authenticateToken
 }
+
 
 

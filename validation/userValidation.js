@@ -13,7 +13,23 @@ const loginValidation = Joi.object({
 })
 
 
+
+const updateValidation = Joi.object({
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+
+})
+
+
+const passwordValidation = Joi.object({
+    newPassword: Joi.string().required(),
+    confirmPassword: Joi.string().required(),
+
+})
+
 module.exports = {
+    passwordValidation,
     regValidation,
-    loginValidation
+    loginValidation,
+    updateValidation
 }
