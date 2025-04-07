@@ -1,6 +1,6 @@
 const {Sequelize, DataTypes, ENUM} = require('sequelize')
 const db = require('../config/db_config')
-const Registration = require('./Registration')
+const Booking = require('./Bookings')
 const Ticket = require('./Tickets')
 
 const Event = db.define(
@@ -26,25 +26,21 @@ const Event = db.define(
             type: DataTypes.DATE, 
             allowNull: true,
         },
-        locationId: {
+        venueId: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
         },
-        organizationId: {
+        userId: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
-        },
-        capicity: {
-            type: DataTypes.INTEGER, 
-            allowNull: true,
         },
     }
 )
-Event.hasMany(Registration, {foreignKey:'regId'})
-Registration.belongsTo(Event)
+Event.hasMany(Booking, {foreignKey:'BookingId'})
+Booking.belongsTo(Event)
 
-Event.hasMany(Ticket, {foreignKey:'ticketId'})
-Ticket.belongsTo(Event)
+// Event.hasMany(Ticket, {foreignKey:'ticketId'})
+// Ticket.belongsTo(Event)
 
 module.exports = Event
 return Event

@@ -1,6 +1,8 @@
 const {Sequelize, DataTypes, ENUM, hasMany} = require('sequelize')
 const db = require('../config/db_config')
-const Registration = require('./Registration')
+const Events= require('./Events')
+const Venue = require('./Venues')
+const Artist = require('./Artist')
 const { FOREIGNKEYS } = require('sequelize/lib/query-types')
 
 const User = db.define(
@@ -32,16 +34,25 @@ const User = db.define(
             type: DataTypes.STRING, 
             allowNull: false,
         },
-        role: {
-            type: DataTypes.ENUM('Admin', 'User', 'Guest'), 
-            defaultValue: 'Admin'
+        userType: {
+            type: DataTypes.ENUM('Artist', 'Venue Owner', 'Event Organizer'),
+            allowNull: false,
         },
     }
 )
 
 // database associations
-User.hasMany(Registration, {foreignKeys: 'regId'})
-Registration.belongsTo(User) 
+User.hasMany(Events, {foreignKeys: 'eventId'})
+Events.belongsTo(User) 
+
+User.hasOne(Artist, {foreignKeys: 'artistId'})
+Artist.belongsTo(User) 
+
+User.hasOne(Venue, {foreignKeys: 'venueId'})
+Events.belongsTo(User) 
+
+
+
 
 
 module.exports = User

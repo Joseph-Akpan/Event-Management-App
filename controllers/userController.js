@@ -17,7 +17,7 @@ welcome = async (req, res) => {
 // -------------------------Register----------------------------
 //register
 register = async (req, res) => {
-    const { username, password, email } = req.body
+    const { username, password, email, userType} = req.body
     const { error } = regValidation.validate(req.body)
     if (error) {
         return res.status(404).json(error.details[0].message);
@@ -32,11 +32,13 @@ register = async (req, res) => {
         if (userExist) {
             return res.status(200).json({ msg: 'User with these username or email  alredady exist' })
         }
-        //credate users
+       
+        //create users
         const createUser = await User.create({
             username,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            userType
         })
         // check if user exist
         if (!createUser) {
@@ -109,7 +111,6 @@ updateDetails = async (req, res) => {
             {
                 firstName,
                 lastName,
-                role
             },
             {
                 where: { userId }
@@ -129,9 +130,6 @@ const passwordUpdate = async (req, res) => {
     const userId = req.user.userId
 
     try {
-
-
-
         const { newPassword, confirmPassword } = req.body
         const { error } = passwordValidation.validate(req.body)
         if (error) { return res.json(error.details[0].message) }
@@ -152,11 +150,10 @@ const passwordUpdate = async (req, res) => {
         throw error
 
     }
-
-    // console.log(userId)
-
 }
 
+
+// ---------------------forgot password ----------------------
 
 
 
