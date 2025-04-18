@@ -15,8 +15,8 @@ authenticateToken = async (req, res, next) => {
     }
 
     // Safely destructure properties only if verify is valid
-    const { userId, username, email, role } = verify;
-    req.user = { userId, username, email, role }; // Attach user info to request
+    const { userId, username, email, userType } = verify;
+    req.user = { userId, username, email, userType }; // Attach user info to request
     next();
   });
 };

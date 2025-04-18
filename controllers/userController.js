@@ -2,6 +2,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
+const Artist = require('../models/Artist')
 const { Op } = require('sequelize')
 const { regValidation,
     loginValidation,
@@ -9,11 +10,15 @@ const { regValidation,
     passwordValidation
 } = require('../validation/userValidation')
 
+
 // Get all users
 welcome = async (req, res) => {
-    const user = await User.findAll()
+    const user = await User.findAll({include: Artist})
     return res.json(user)
+    // console.log(user)
+
 }
+
 // -------------------------Register----------------------------
 //register
 register = async (req, res) => {
@@ -72,7 +77,7 @@ login = async (req, res) => {
         }
 
         const loginToken = jwt.sign(
-            { userId: userExist.userId, username: userExist.username, email: userExist.email, role: userExist.role },
+            { userId: userExist.userId, username: userExist.username, email: userExist.email, userType: userExist.userType },
             process.env.privateKey,
             { expiresIn: '1h' }
         )
@@ -82,7 +87,7 @@ login = async (req, res) => {
             firstname: userExist.firstName,
             email: userExist.email,
             username: userExist.username,
-            role: userExist.role,
+            userType: userExist.userType,
 
         })
 

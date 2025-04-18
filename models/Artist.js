@@ -16,11 +16,7 @@ const Artist = db.define(
             defaultValue: DataTypes.UUIDV4,
         },
         genre: {
-            type: DataTypes.STRING, 
-            allowNull: true,
-        },
-        availability: {
-            type: DataTypes.ENUM('Artist', 'Venue Owner', 'Event Organizer'), 
+            type: DataTypes.STRING,  
             allowNull: true,
         }, 
         portforlioLink: {
@@ -28,9 +24,6 @@ const Artist = db.define(
             allowNull: false,
         }, 
        
-        // availabi: {
-        //     type: DataTypes.ENUM('Artist', 'Venue Owner', 'Event Organizer')
-        // },
     }
 )
 
