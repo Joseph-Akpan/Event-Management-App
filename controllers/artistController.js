@@ -10,12 +10,30 @@ const {artistUpdateValidation} = require('../validation/artistValidation')
 
 const allArtist = async (req,res) => {
     try {
-        const allArtists = await Artist.findAll({
-            // where: {userType: "Artist"},
-            // include: Artist
+        const allArtists = await User.findAll({
+            where: {userType: "Artist"}
         })
         if(allArtists){
             return res.status(200).json(allArtists)
+        }
+    } catch (error) {
+        throw error
+    }  
+}
+
+//-------------------get all users with artist information-------------------
+const artistInfo = async (req,res) => {
+    try {
+        const artistInfos = await User.findOne({
+            where: {userType: "Artist"},
+            include: Artist
+        })
+        if(artistInfos){
+            return res.status(200).json({
+                userId: artistInfos.userId,
+                name: artistInfos.firstName + " " + artistInfos.lastName,
+                genre: artistInfos.genre
+            })
         }
     } catch (error) {
         throw error
@@ -70,4 +88,5 @@ const artistDetailsUpdate = async (req, res) =>{
 module.exports ={
     allArtist,
     artistDetailsUpdate,
+    artistInfo
 }
