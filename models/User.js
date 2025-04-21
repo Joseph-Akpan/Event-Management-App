@@ -40,14 +40,24 @@ const User = db.define(
 )
 
 // database associations
-User.hasMany(Events, {foreignKeys: 'eventId'})
-Events.belongsTo(User) 
+// User.hasMany(Events, {foreignKeys: 'eventId'})
+// Events.belongsTo(User) 
 
-User.hasOne(Artist, {foreignKeys: 'artistId'})
-Artist.belongsTo(User) 
+// User.hasOne(Artist, {foreignKeys: 'artistId'})
+// Artist.belongsTo(User) 
 
-User.hasOne(Venue, {foreignKeys: 'venueId'})
-Events.belongsTo(User) 
+// User.hasOne(Venue, {foreignKeys: 'venueId'})
+// Events.belongsTo(User) 
+
+// Database associations
+User.hasMany(Events, { foreignKey: 'userId' }); // Assuming userId is the foreign key in Events
+Events.belongsTo(User, { foreignKey: 'userId' }); // Correct association
+
+User.hasOne(Artist, { foreignKey: 'userId' }); // Assuming userId is the foreign key in Artist
+Artist.belongsTo(User, { foreignKey: 'userId' }); // Correct association
+
+User.hasOne(Venue, { foreignKey: 'userId' }); // Assuming userId is the foreign key in Venue
+Venue.belongsTo(User, { foreignKey: 'userId' }); // Correct association
 
 
 

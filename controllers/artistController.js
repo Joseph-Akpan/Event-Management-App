@@ -24,15 +24,18 @@ const allArtist = async (req,res) => {
 //-------------------get all users with artist information-------------------
 const artistInfo = async (req,res) => {
     try {
-        const artistInfos = await User.findOne({
-            where: {userType: "Artist"},
-            include: Artist
+        const userInfor = req.user.userId
+        const artistInfos = await Artist.findAll({
+            where: {userId: userInfor},
+            include: User,
         })
+      
         if(artistInfos){
             return res.status(200).json({
-                userId: artistInfos.userId,
-                name: artistInfos.firstName + " " + artistInfos.lastName,
-                genre: artistInfos.genre
+                artistInfos,
+               
+                name: artistInfos.user.firstName + " " + artistInfos.lastName,
+            
             })
         }
     } catch (error) {
