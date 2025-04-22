@@ -12,6 +12,7 @@ const Payment = require('./models/Payment')
 // import routes
 const  userRoute = require('./routes/userRoutes')
 const artistRouter = require('./routes/artistRoute')
+const eventRouter = require('./routes/eventRoute')
 
 
 const port = process.env.PORT||5000
@@ -23,6 +24,7 @@ app.use(express.urlencoded({extended: false}))
 // load the routes
 app.use('/event-app', userRoute)
 app.use('/artist', artistRouter)
+app.use('/events', eventRouter)
 
 
 

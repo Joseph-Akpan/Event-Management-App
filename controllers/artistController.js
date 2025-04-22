@@ -91,7 +91,6 @@ const artistDetailsUpdate = async (req, res) =>{
 
 deleteArtist = async (req, res) =>{
     const infor = req.user.userId
-    console.log(infor)
 
     const delArtist = await User.destroy({
         where: {userId: infor}

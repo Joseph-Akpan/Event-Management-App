@@ -36,7 +36,7 @@ const Event = db.define(
         },
     }
 )
-Event.hasMany(Booking, {foreignKey:'BookingId'})
+Event.hasMany(Booking, {foreignKey:'eventId'})
 Booking.belongsTo(Event)
 
 // Event.hasMany(Ticket, {foreignKey:'ticketId'})
