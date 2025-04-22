@@ -34,7 +34,7 @@ const Venue = db.define(
     }
 )
 
-Venue.hasMany(Events, {foreignKey: 'eventId'} )
+Venue.hasMany(Events, {foreignKey: 'venueId'} )
 // database associations
 // Venue.hasMany(Events, {foreignKeys: 'eventId'})
 // Events.belongsTo(Venue) 
