@@ -11,7 +11,8 @@ const {artistUpdateValidation} = require('../validation/artistValidation')
 const allArtist = async (req,res) => {
     try {
         const allArtists = await User.findAll({
-            where: {userType: "Artist"}
+            where: {userType: "Artist"},
+            include: Artist
         })
         if(allArtists){
             return res.status(200).json(allArtists)
@@ -24,20 +25,27 @@ const allArtist = async (req,res) => {
 //-------------------get all users with artist information-------------------
 const artistInfo = async (req,res) => {
     try {
-        const userInfor = req.user.userId
-        const artistInfos = await Artist.findAll({
-            where: {userId: userInfor},
-            include: User,
+        const infor = req.user.userId
+        // console.log(infor)
+        const artistInfos = await Artist.findOne({
+            where: {userId: infor},
+            include: {
+                model: User,
+                // required: true, 
+            }
         })
       
         if(artistInfos){
             return res.status(200).json({
-                artistInfos,
+                // artistInfos
                
-                name: artistInfos.user.firstName + " " + artistInfos.lastName,
-            
+                name: artistInfos.User.firstName + " " + artistInfos.User.lastName,
+                stageName: artistInfos.User.username,
+                email: artistInfos.User.email,
+                genre: artistInfos.genre
             })
         }
+        return res.status(404).json({msg: "Artist not found in the database"})
     } catch (error) {
         throw error
     }  
@@ -46,13 +54,11 @@ const artistInfo = async (req,res) => {
 // ------------------update artist details -------------------
 
 const artistDetailsUpdate = async (req, res) =>{
-  
-
     try {
         const loggedInArtist = req.user.userId
         const {genre, portforlioLink} = req.body
 
-         //------------validate user details --------------
+    //------------validate user details --------------
     const { error } = artistUpdateValidation.validate(req.body)
     if (error) { return res.json(error.details[0].message) }
 
@@ -80,16 +86,23 @@ const artistDetailsUpdate = async (req, res) =>{
     } catch (error) {
         throw error
         
-    }
+    }   
+}
 
-   
+deleteArtist = async (req, res) =>{
+    const infor = req.user.userId
+    console.log(infor)
 
-    
-
+    const delArtist = await User.destroy({
+        where: {userId: infor}
+    })
+    if(delArtist){return res.status(200).json({msg: 'Artist deleted successfully'})}
+    return res.status(404).json({msg: "Artist not found in database"})
 }
 
 module.exports ={
     allArtist,
     artistDetailsUpdate,
-    artistInfo
+    artistInfo,
+    deleteArtist,
 }

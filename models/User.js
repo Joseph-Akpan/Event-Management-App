@@ -39,15 +39,7 @@ const User = db.define(
     }
 )
 
-// database associations
-// User.hasMany(Events, {foreignKeys: 'eventId'})
-// Events.belongsTo(User) 
 
-// User.hasOne(Artist, {foreignKeys: 'artistId'})
-// Artist.belongsTo(User) 
-
-// User.hasOne(Venue, {foreignKeys: 'venueId'})
-// Events.belongsTo(User) 
 
 // Database associations
 User.hasMany(Events, { foreignKey: 'userId' }); // Assuming userId is the foreign key in Events
