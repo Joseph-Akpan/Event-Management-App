@@ -11,7 +11,7 @@ allVenues =async (req, res) => {
     try {
         const venueOwners = await User.findAll({
             where: {userType: "Venue Owner"},
-            include: Event
+            include: Venue
         })
         res.status(200).json(venueOwners)
      
@@ -30,23 +30,22 @@ createVenue = async (req, res) => {
         const { error } = venueCreateValidation.validate(req.body)
         if (error) { return res.json(error.details[0].message) }
 
-        const createVenue = await Venue.create({
+        const createVenue = await Venue.findOrCreate({
+            where: {userId: venueOwner},
             userId: venueOwner,
             location,
             capacity, 
             amenities, 
             availability
-
         })
 
-        if (!createVenue){
-            return res.status(500).json({msg: "Error creating  venue"})
-        }
+        console.log(createVenue)
 
-        return res.status(201).json({msg: "Venue created succeffully"})
+        // if (createVenue){
+        //     return res.status(500).json({msg: "Record with these detail already exist"})
+        // }
+        // return res.status(201).json({msg: "Venue created successfully"})
 
-
-        console.log(venueOwner)
 
     } catch (error) {
         throw error
