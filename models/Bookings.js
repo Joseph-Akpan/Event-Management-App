@@ -5,7 +5,7 @@ const { FOREIGNKEYS } = require('sequelize/lib/query-types')
 
 const Bookings = db.define(
     'Bookings', {
-        venueId: {
+        bookingId: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,

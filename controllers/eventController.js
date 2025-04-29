@@ -25,7 +25,7 @@ createEvents = async (req, res) =>{
     try {
         const userId = req.user.userId
         const venueId = req.user.venueId                //take not this is undefine at the moment
-        // console.log(venueId)
+        console.log(venueId)
         const {title, description, startDate, endDate} = req.body
 
         // validation of the request body
@@ -49,8 +49,8 @@ createEvents = async (req, res) =>{
             description: description,
             startDate: startDate,
             endDate:endDate,
+            // venueId: venueId,
             userId: userId,
-            venueId: venueId
         })
         if (createEvent){
             return res.status(201).json({msg: "event created successfully"})
